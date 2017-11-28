@@ -10,7 +10,6 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import cal.tpCertificatif.bean.AbstractUser;
-import cal.tpCertificatif.bean.Deck;
 import cal.tpCertificatif.util.IPersisanceService;
 
 public class UserPersistanceService implements IPersisanceService<List<AbstractUser>> {
