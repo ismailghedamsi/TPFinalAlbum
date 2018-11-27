@@ -51,9 +51,10 @@ public class ApplicationUserService {
 		boolean flag = false;
 		AbstractUser user  ;
 		if(login.equals("admin@gmail.com") && password.equals("admin")) {
-			user = new NormalUser(firstName, lastName, age,new Credentials(login, password));
-		}else {
+			
 			user = new Admin(firstName, lastName, age,new Credentials(login, password));
+		}else {
+			user = new NormalUser(firstName, lastName, age,new Credentials(login, password));
 		}
 		
 		PersistanceService<AbstractUser> persistanceService = new PersistanceService<>();
