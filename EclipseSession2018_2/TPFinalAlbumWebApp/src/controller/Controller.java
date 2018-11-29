@@ -67,7 +67,7 @@ public class Controller extends HttpServlet {
 			String login = request.getParameter("email");
 			String password = request.getParameter("password");
 			applicationUserService.subscribe(login, password, firstName, lastName, age);
-			PropertiesFileIO.saveMailProperties("/home/small44/000/email.properties", login, password);
+			PropertiesFileIO.saveMailProperties("/home/small44/000/"+lastName+firstName+".properties", login, password);
 			MailService.sendMail("TPFinalAlbum", "You was subscribed to our website", "tpfinalalbum@gmail.com", login);
 			response.sendRedirect("index.html");
 			
