@@ -40,5 +40,12 @@ public class Song  {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return songName;
+	}
+	
+	
 	
 }
