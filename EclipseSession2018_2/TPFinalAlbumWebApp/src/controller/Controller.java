@@ -82,11 +82,14 @@ public class Controller extends HttpServlet {
 				dispatcher.forward(request, response);
 				
 			}else if(action.equals("supprimerAlbum")){
-				System.out.println("ca rentre supprimerAlbum");
 				String idAlbumToRemove = request.getParameter("idAlbum");
 				operationService.removeAlbumFromApplicationDatabase((Admin)authenticedUser, idAlbumToRemove, PersistanceService.ALBUMS_LOCATION);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
 				dispatcher.forward(request, response);
+			}else if(action.equals("displayUserAlbums")) {
+			
+			}else if(action.equals("addAlbumToUserAlbumCollection")) {
+				
 			}
 	}
 
