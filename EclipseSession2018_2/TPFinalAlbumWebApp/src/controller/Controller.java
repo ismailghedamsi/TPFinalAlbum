@@ -44,22 +44,19 @@ public class Controller extends HttpServlet {
 			String logInpassword = request.getParameter("userPassword");
 			 authenticedUser = applicationUserService.authentication(logInlogin, logInpassword);
 			System.out.println(authenticedUser);
-			/*if(authenticedUser == null) {
-				RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
+			if(authenticedUser == null) {
 				
+				request.setAttribute("notMember", "You're not a member go subscribe ");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
 				dispatcher.forward(request, response);
-			}else*/ if(authenticedUser.getClass().getName().equals("bean.NormalUser")) {
+			}else if(authenticedUser.getClass().getName().equals("bean.NormalUser")) {
 				request.getSession().setAttribute("authenticedUser", authenticedUser);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("normalUserPage.jsp");
 				dispatcher.forward(request, response);
 			}else if(authenticedUser.getClass().getName().equals("bean.Admin")) {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("adminPage.jsp");
 				dispatcher.forward(request, response);
-			}/*else {
 			}
-				RequestDispatcher dispatcher = request.getRequestDispatcher("adminPage.jsp");
-				dispatcher.forward(request, response);
-			}*/
 		}else if(action.equals("createAccount")) {
 			String firstName = request.getParameter("firstName");
 			String lastName = request.getParameter("lastName");
@@ -84,9 +81,13 @@ public class Controller extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("aplicationAlbumList.jsp");
 				dispatcher.forward(request, response);
 				
-			}else {
-			response.sendRedirect("error.jsp");
-		}
+			}else if(action.equals("supprimerAlbum")){
+				System.out.println("ca rentre supprimerAlbum");
+				String idAlbumToRemove = request.getParameter("idAlbum");
+				operationService.removeAlbumFromApplicationDatabase((Admin)authenticedUser, idAlbumToRemove, PersistanceService.ALBUMS_LOCATION);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
+				dispatcher.forward(request, response);
+			}
 	}
 
 	

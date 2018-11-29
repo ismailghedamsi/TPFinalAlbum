@@ -7,6 +7,7 @@
 <title>Error</title>
 </head>
 <body>
-	<h1>Erreur</h1>
+	<h1><%=request.getParameter("notMember") %></h1>
+	<a href="index.html">Return to subsription page</a>
 </body>
 </html>

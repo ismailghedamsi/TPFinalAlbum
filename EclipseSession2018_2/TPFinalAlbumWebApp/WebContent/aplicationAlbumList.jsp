@@ -12,7 +12,7 @@
 <body>
 	<%
 		List<bean.Album> albumList =( List<bean.Album>) request.getSession().getAttribute("albumList");
-		Album album = albumList.get(0);
+
 	%>
 	<table border="1">
 		<tr>
@@ -36,7 +36,7 @@
 						
 						%><%=tracklist %></td>
 					}
-					<td>Supprimer <%=currentAlbum.getAlbumName() %></td>
+					<td><a href="Controller?action=supprimerAlbum?idAlbum=<%=currentAlbum.getId() %>">Supprimer <%=currentAlbum.getAlbumName() %></a></td>
 				</tr>
 		<% 	}%>
 	</table>
