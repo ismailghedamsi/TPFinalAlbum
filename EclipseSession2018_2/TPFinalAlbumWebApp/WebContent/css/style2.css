@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+div {
+	background-color : red;
+	margin : 5px;
+}
+
+a {
+	display: block;
+	padding-top : 40px;
+}
+
+div{
+	position : relative;
+	margin-top : 60px;
+	background-color: lightblue;
+}
+
+body {
+	background-color: green;
+}
