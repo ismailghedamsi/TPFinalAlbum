@@ -88,7 +88,7 @@ public class OperationServiceTest {
 	@Test
 	public void testFindApplicationAlbum() {
 		Collection<bean.Album> listeAlnum = persistanceService.loadBeans(PersistanceService.ALBUMS_LOCATION);
-		assertNotNull(OperationService.getInstance().findApplicationAlbum(listeAlnum,"K.O.D"));
+		assertNotNull(OperationService.getInstance().findApplicationAlbumByAlbumName(listeAlnum,"K.O.D"));
 	}
 	
 	@Test
@@ -114,7 +114,7 @@ public class OperationServiceTest {
 	
 		Collection<bean.Album> listeAlnum = persistanceService.loadBeans(PersistanceService.ALBUMS_LOCATION);
 		OperationService.getInstance().addAlbumToUserAlbumCollection(PersistanceService.USERS_LOCATION,listeAlnum,admin , "Absolute Power");
-		albumApp = operationService.findApplicationAlbum(listeAlnum, "Absolute Power");
+		albumApp = operationService.findApplicationAlbumByAlbumName(listeAlnum, "Absolute Power");
 		assertTrue(operationService.removeAlbumFromUserAlbumCollection(admin, albumApp));
 	}
 	
@@ -122,7 +122,12 @@ public class OperationServiceTest {
 	public void testRetrieveArtistFromLastFmDatabase() {
 		assertNotNull(operationService.retrieveArtistFromLastFmDatabase("Tech N9ne"));
 	}
-
+	
+	
+	@Test
+	public void testRemoveAlbumFromApplicationDatabase() {
+		assertTrue(operationService.removeAlbumFromApplicationDatabase(admin, "dea8d7d1-1823-4635-a536-8ca487a91e8c", PersistanceService.ALBUMS_LOCATION));
+	}
 
 
 

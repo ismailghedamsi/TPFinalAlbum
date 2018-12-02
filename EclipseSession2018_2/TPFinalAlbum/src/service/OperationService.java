@@ -27,6 +27,8 @@ public class OperationService {
 	private static PersistanceService<bean.Artist> persistanceServiceArtist=new PersistanceService<>();
 	private static CrudService<bean.Artist> crudServiceArtist = new CrudService<>();
 	private static OperationService operationService;
+	private static PersistanceService<AbstractUser> persistanceServiceUser=new PersistanceService<>();
+	private static CrudService<AbstractUser> crudServiceUser=new CrudService<>();
 	private OperationService() {
 		
 	}
@@ -98,6 +100,14 @@ public class OperationService {
 		return persistanceService.saveBeans(albumLocation, listeAlbums);
 	}
 	
+	
+	public  boolean removeAlbumFromApplicationDatabase(Admin remover,String idAlbum,String albumLocation) {
+		Collection<bean.Album> listeAlbums = persistanceService.loadBeans(albumLocation);
+		bean.Album albumToRemove = findApplicationAlbumById(listeAlbums, idAlbum);
+		System.out.println("Album to remove "+albumToRemove);
+		return crudService.removeBean(listeAlbums, albumToRemove) && persistanceService.saveBeans(albumLocation, listeAlbums);
+	}
+	
 	/**
 	 * Add an artist to the application database(xml file)
 	 * @param admin the admin who added the album
@@ -143,12 +153,16 @@ public class OperationService {
 	public boolean addAlbumToUserAlbumCollection(String saveLocation,Collection<bean.Album> databaseAlbumList,AbstractUser user,String albumName) {
 		boolean added = false;
 		AbstractUser findedUser = findApplicationUser(user);
+		 Collection<AbstractUser> usersList = persistanceServiceUser.loadBeans(PersistanceService.USERS_LOCATION);
+		 usersList.remove(findedUser);
 		//Add the album to user album collection if it exists in the application database (not last fm database)
-		bean.Album findedAlbum = findApplicationAlbum(databaseAlbumList, albumName);
+			bean.Album findedAlbum = findApplicationAlbumByAlbumName(databaseAlbumList, albumName);
+		 findedUser.getUserAlbumCollection().add(findedAlbum);
+		 usersList.add(findedUser);
 		if(findedAlbum != null ) {
 			Collection<bean.Album> albumCollection  = findedUser.getUserAlbumCollection();
-			boolean bol = crudService.addBean(albumCollection, findedAlbum);
-			added = persistanceService.saveBeans(saveLocation, findedUser.getUserAlbumCollection());
+			crudService.addBean(albumCollection, findedAlbum);
+			added = persistanceServiceUser.saveBeans(PersistanceService.USERS_LOCATION,usersList);
 		}
 		return added;
 	}
@@ -172,7 +186,20 @@ public class OperationService {
 	 * @param albumName the name of the searched album
 	 * @return the wanted album
 	 */
-	public bean.Album findApplicationAlbum(Collection<bean.Album> databaseAlbumList,String albumName) {
+	public bean.Album findApplicationAlbumById(Collection<bean.Album> databaseAlbumList,String id) {
+		bean.Album researchedalbum = null;
+		for (bean.Album album : databaseAlbumList) {
+			if(album.getId().equals(id)) {
+				researchedalbum = album;
+				break;
+			}else {
+				throw new NoSuchElementException("Album not found");
+			}
+		}
+		return researchedalbum;
+	}
+	
+	public bean.Album findApplicationAlbumByAlbumName(Collection<bean.Album> databaseAlbumList,String albumName) {
 		bean.Album researchedalbum = null;
 		for (bean.Album album : databaseAlbumList) {
 			if(album.getAlbumName().equals(albumName)) {

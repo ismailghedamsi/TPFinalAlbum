@@ -1,5 +1,6 @@
 package bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -12,9 +13,13 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-public class Album {
+public class Album implements Serializable {
 	
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//The id is the album id in the Last FM library
 	private String id;
 	private String albumName;
@@ -79,8 +84,5 @@ public class Album {
 		return true;
 	}
 
-	
-	
-	
 	
 }
