@@ -39,6 +39,7 @@ public class Controller extends HttpServlet {
 		 subscribedUsers = applicationUserService.getRegistredUsers();
 		 
 		String action = request.getParameter("action");
+		System.out.println(action);
 		if(action.equals("loginIn")) {
 			String logInlogin = request.getParameter("userMail");
 			String logInpassword = request.getParameter("userPassword");
@@ -87,7 +88,9 @@ public class Controller extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
 				dispatcher.forward(request, response);
 			}else if(action.equals("displayUserAlbums")) {
-			
+				request.setAttribute("userAlbumList", authenticedUser.getUserAlbumCollection());
+				RequestDispatcher dispatcher = request.getRequestDispatcher("userAlbumList.jsp");
+				dispatcher.forward(request, response);
 			}else if(action.equals("addAlbumToUserAlbumCollection")) {
 				String albumName = request.getParameter("albumName");
 				List<Album> listeAlbum = (List<Album>) persistanceService.loadBeans(PersistanceService.ALBUMS_LOCATION);
@@ -98,7 +101,6 @@ public class Controller extends HttpServlet {
 				}else {
 					dispatcher = request.getRequestDispatcher("adminPage.jsp");
 				}
-				
 				dispatcher.forward(request, response);
 			}
 	}
