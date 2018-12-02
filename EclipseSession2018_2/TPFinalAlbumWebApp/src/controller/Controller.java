@@ -89,7 +89,17 @@ public class Controller extends HttpServlet {
 			}else if(action.equals("displayUserAlbums")) {
 			
 			}else if(action.equals("addAlbumToUserAlbumCollection")) {
+				String albumName = request.getParameter("albumName");
+				List<Album> listeAlbum = (List<Album>) persistanceService.loadBeans(PersistanceService.ALBUMS_LOCATION);
+				operationService.addAlbumToUserAlbumCollection("/home/small44/0database/usersAlbums.xml", listeAlbum, authenticedUser, albumName);
+				RequestDispatcher dispatcher = null;
+				if(authenticedUser.getClass().getName().equals("bean.NormalUser")) {
+					 dispatcher = request.getRequestDispatcher("normalUserPage.jsp");
+				}else {
+					dispatcher = request.getRequestDispatcher("adminPage.jsp");
+				}
 				
+				dispatcher.forward(request, response);
 			}
 	}
 
