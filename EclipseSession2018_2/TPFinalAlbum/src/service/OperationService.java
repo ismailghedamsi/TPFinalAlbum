@@ -2,6 +2,9 @@ package service;
 
 
 import java.util.*;
+
+import org.apache.commons.lang3.RandomStringUtils;
+
 import bean.*;
 import de.umass.lastfm.Album;
 import de.umass.lastfm.Artist;
@@ -59,7 +62,15 @@ public class OperationService {
 	 * @return the builded application album
 	 */
 	public  bean.Album buildApplicationAlbum(Admin adder,Album albumApi,List<Song> listeTrackAlbum){
-		return new bean.Album(albumApi.getMbid(),albumApi.getName(), getAlbumFormat(albumApi),listeTrackAlbum,adder.getFirstName());
+		bean.Album appAlbum = null;
+		//Some album on the last fm api doesn't have an mbid so if it doesn't have one we genrate an id
+		if(albumApi.getMbid() == null) {
+			
+			appAlbum = new bean.Album(RandomStringUtils.randomAlphanumeric(36),albumApi.getName(), getAlbumFormat(albumApi),listeTrackAlbum,adder.getFirstName());
+		}else {
+			appAlbum = new bean.Album(albumApi.getMbid(),albumApi.getName(), getAlbumFormat(albumApi),listeTrackAlbum,adder.getFirstName());
+		}
+		return appAlbum; 
 	}
 	
 
